@@ -52,3 +52,42 @@ model cannot connect the pairs into a full idea.
 |Bigram|3.70| 5.16|89.1s|Low|Overfits after step 2,000|
 
 --------------------------------------------------------
+**LSTM**
+
+**How it uses more context:** The LSTM reads the tokens one at a time,
+from left to right. After each token, it updates its memory. When it
+predicts the next token, it uses this memory, which contains information
+from all the previous tokens in the context (up to 16 tokens). The
+bigram model only uses the current token.
+
+**What improvement it provides:** The validation loss went down from
+5.16 (bigram) to 4.66, and the lowest was 4.48. The LSTM also generates
+longer phrases that make sense. It does this with about 0.94 million
+parameters, which is about one tenth of the bigram model.
+
+**Why it may still struggle with longer dependencies:** First, the LSTM
+has to store all the previous tokens in one memory vector of 128 numbers.
+Information from early tokens can be pushed out by later tokens. Second,
+during training, the gradient from early tokens becomes very small
+(vanishing gradient), so the model learns long-distance patterns slowly.
+The LSTM gates help with this, but they do not fully solve it. For
+example, the model wrote "i has" because it did not keep "i" in memory.
+
+
+**Generated text:** Compared with the bigram model, the LSTM generates
+longer phrases that make sense, such as "following his way in silence"
+and "against the same position". The bigram model can only generate two
+words in a row that read smoothly. The LSTM still makes mistakes. For
+example, it writes "i has" instead of "i have". The words "i" and "has"
+are several tokens apart, so the LSTM did not keep the subject in its
+memory. The full text, such as "tottenham court days from the
+mantelpiece", still has no clear meaning.
+
+**Overfitting:** The LSTM reached its lowest validation loss of 4.48 at
+step 1500. After that, the validation loss went up to 4.66 while the
+training loss kept going down. This shows overfitting.
+
+---------------------------------------------------------
+
+
+
