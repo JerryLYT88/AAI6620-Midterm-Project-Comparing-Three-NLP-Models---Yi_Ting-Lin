@@ -90,4 +90,31 @@ training loss kept going down. This shows overfitting.
 ---------------------------------------------------------
 
 
+---------------------------------------------------------
+**Results:** The bigram model did not change (5.16 to 5.15). This is
+because it only uses the current token to predict the next token.
+
+For the LSTM, the lowest validation loss was at step 1,500 in both
+experiments. With block_size 64, it was only slightly lower (4.47
+compared with 4.48). The final validation loss went down from 4.66 to
+4.59.
+
+For the transformer, overfitting started later. With block_size 16, the
+lowest validation loss was 4.50 at step 1,500. With block_size 64, it
+was 4.48 at step 2,000. The final validation loss went down from 4.81
+to 4.61, and the gap between training and validation loss became
+smaller (1.86 to 1.40).
+
+**Compared with my prediction:** My prediction for the bigram model was
+correct. My prediction for the transformer was partly correct. It
+improved more than the LSTM in final validation loss (0.20 compared
+with 0.07). But its lowest validation loss only improved by 0.02, and it
+still did not beat the LSTM.
+
+**What I learned:** Both models stopped at about 4.47 in both
+experiments. I think the main limit is the dataset size, not the model
+or the context length. The training data has only 115,862 tokens. A
+longer context mainly helped the transformer overfit less, but it did
+not help it learn much more.
+
 
