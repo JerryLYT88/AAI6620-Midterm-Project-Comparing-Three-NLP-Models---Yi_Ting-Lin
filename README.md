@@ -129,7 +129,7 @@ away.
 not improve on the LSTM. Its lowest validation loss was 4.50, and the
 LSTM's was 4.48. Its final validation loss was 4.81, which is higher
 than the LSTM's 4.66. It also has more parameters (1.21 million) and
-took longer to train (129.4 seconds compared with 99.3 seconds). Its
+took longer to train (55.0 seconds compared with 35.0 seconds). Its
 training loss was the lowest (2.95), but this means it memorized the
 training data more, not that it learned better.
 
@@ -151,17 +151,17 @@ and validation loss was 1.86, which is larger than the LSTM's gap of
 
 | Model | Train Loss | Val Loss | Best Val Loss | Training Time | Text Quality |
 |---|---|---|---|---|---|
-| Bigram | 3.79 | 5.16 | 5.16 (step 2999) | 89.6 s | Low |
-| LSTM | 3.13 | 4.66 | 4.48 (step 1500) | 99.4 s | Medium |
-| Transformer | 2.95 | 4.81 | 4.50 (step 1500) | 129.4 s | Medium |
+| Bigram | 3.79 | 5.16 | 5.16 (step 2999) | 74.8 s | Low |
+| LSTM | 3.13 | 4.66 | 4.48 (step 1500) | 35.0 s | Medium |
+| Transformer | 2.95 | 4.81 | 4.50 (step 1500) | 55.0 s | Medium |
 
 **Experiment 2 (block_size = 64)**
 
 | Model | Train Loss | Val Loss | Best Val Loss | Training Time | Text Quality |
 |---|---|---|---|---|---|
-| Bigram | 3.79 | 5.15 | 5.13 (step 2500) | 81.3 s | Low |
-| LSTM | 3.07 | 4.59 | 4.47 (step 1500) | 84.1 s | Median |
-| Transformer | 3.21 | 4.61 | 4.48 (step 2000) | 114.6 s | Median | 
+| Bigram | 3.79 | 5.15 | 5.13 (step 2500) | 75.5 s | Low |
+| LSTM | 3.07 | 4.59 | 4.47 (step 1500) | 45.0 s | Median |
+| Transformer | 3.21 | 4.61 | 4.48 (step 2000) | 67.2 s | Median | 
 
 **Which model performed best?**
 The LSTM had the lowest validation loss in both experiments: 4.48 in
@@ -171,13 +171,15 @@ so the LSTM and the transformer performed almost the same. Both were
 much better than the bigram model (5.16 and 5.13).
 
 **Which model trained fastest?**
-In my final run, the bigram model was the fastest in both experiments
-(89.6 s and 81.3 s). However, training time changed between runs. In
-earlier runs, the LSTM was faster than the bigram model. The bigram
-model has the simplest computation, but it has the most parameters to
-update (9.9 million). The only stable result is that the transformer
-was always the slowest. Attention compares every token with every
-previous token, so it needs more computation.
+In my final run, the LSTM was the fastest in both experiments (35.0 s
+and 45.0 s), and the bigram model was the slowest (74.8 s and 75.5 s).
+However, training time changed a lot between runs. In earlier runs, the
+bigram model was sometimes the fastest. The bigram model has the
+simplest computation, but it has the most parameters to update (9.9
+million), so its speed changed the most. The only result that stayed
+the same in every run is that the transformer was slower than the LSTM.
+Attention compares every token with every previous token, so it needs
+more computation.
 
 **Which model generated the most realistic text?**
 In my samples, the LSTM and the transformer generated text of similar
@@ -216,7 +218,7 @@ stopped at about 4.47.
 
 **Was it worth the added complexity?**
 The transformer had more parameters (1.21 million compared with 0.94
-million) and a longer training time (129.4 s compared with 99.4 s in
+million) and a longer training time (55.0 s compared with 35.0 s in
 Experiment 1). However, its validation loss was almost the same as the
 LSTM. In my opinion, it was not worth it for a dataset of this size.
 I think the transformer can do better with a larger dataset, because
@@ -247,12 +249,13 @@ The results were different from what I expected. I expected the
 transformer to have the best results and to generate the best text.
 However, the LSTM was the best model in this project. It beat the
 transformer by only 0.02 and 0.01 in validation loss, and it trained
-about 30 seconds faster. In Experiment 1, overfitting started at the
-same step (1500) for both models. In Experiment 2, the transformer
-successfully moved its overfitting point later, to step 2000. I used a
-small dataset, so the transformer could not show its strength, and it
-performed about the same as the LSTM. This reminded me that choosing a
-model depends on the available resources and the goal of the training.
+about 20 seconds in experience 1 and 22.2 seconds in experience 
+faster. In Experiment 1, overfitting started at the same step (1500) 
+for both models. In Experiment 2, the transformer successfully moved 
+its overfitting point later, to step 2000. I used a small dataset, 
+so the transformer could not show its strength, and it performed 
+about the same as the LSTM. This reminded me that choosing a model 
+depends on the available resources and the goal of the training.
 I should not always use the same model for every task.
 
 ## 8. Responsible AI Use
